@@ -3,9 +3,13 @@ import OpenAI from "openai";
 import { systemPrompt } from "@/lib/store";
 
 function getClient() {
-  return new OpenAI({
+  const config: { apiKey: string; baseURL?: string } = {
     apiKey: process.env.OPENAI_API_KEY || "dummy-key-for-build",
-  });
+  };
+  if (process.env.OPENAI_BASE_URL) {
+    config.baseURL = process.env.OPENAI_BASE_URL;
+  }
+  return new OpenAI(config);
 }
 
 export const dynamic = "force-dynamic";
